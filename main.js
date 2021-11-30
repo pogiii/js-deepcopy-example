@@ -8,6 +8,12 @@ function deepCopy(obj) {
     for (let i = 0; i < keys.length; i++) {
 
         if (typeof values[i] == 'object') {
+
+            if (obj == values[i]) {
+                newObj[keys[i]] = newObj;
+                continue;
+            }
+
             values[i] = deepCopy(values[i]);
         }
 
@@ -16,7 +22,7 @@ function deepCopy(obj) {
     }
 
     return newObj;
-}
+};
 
 const base = {
     a: 'b',
@@ -30,9 +36,12 @@ const base = {
     }
 };
 
-const newObj = deepCopy(base);
+// create circular
+base.e = base;
 
-base.d.skills.primary = 'drawings';
+const clone = deepCopy(base);
 
+// check for deep clone
+clone.d.skills.primary = 'drawing';
 console.log(base);
-console.log(newObj);
+console.log(clone)
